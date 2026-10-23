@@ -1,0 +1,994 @@
+{
+  "updated_at": "2026-10-23T14:21:56",
+  "source": "Brisbins_Current_Inventory.xlsx",
+  "meta": {
+    "title": "Stock take report",
+    "date": "23/10/26",
+    "counted_by": "Counted by: \u2014",
+    "generated": "Generated 23 Oct 2026, exported 23 Oct, 12:33",
+    "grand_total": 4983
+  },
+  "items": [
+    {
+      "category": "Bin",
+      "item": "100L Bin Black",
+      "sku": "100L-BIN-BLACK",
+      "color": "Black",
+      "size": "100L",
+      "total_count": 13,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "100L Bin Royal Blue",
+      "sku": "100L-BIN-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "100L",
+      "total_count": 49,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "1100L Bin Dark Green",
+      "sku": "1100L-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "1100L",
+      "total_count": 32,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "1100L Bin Dark Grey",
+      "sku": "1100L-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "1100L",
+      "total_count": 19,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "1100L Bin Lime Green",
+      "sku": "1100L-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "1100L",
+      "total_count": 7,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "1100L Bin Red",
+      "sku": "1100L-BIN-RED",
+      "color": "Red",
+      "size": "1100L",
+      "total_count": 6,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "1100L Bin Royal Blue",
+      "sku": "1100L-BIN-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "1100L",
+      "total_count": 17,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "1100L Bin Yellow",
+      "sku": "1100L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "1100L",
+      "total_count": 4,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Black",
+      "sku": "120L-BIN-BLACK",
+      "color": "Black",
+      "size": "120L",
+      "total_count": 61,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Dark Green",
+      "sku": "120L-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "120L",
+      "total_count": 23,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Dark Grey",
+      "sku": "120L-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "120L",
+      "total_count": 19,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Light Blue",
+      "sku": "120L-BIN-LIGHT-BLUE",
+      "color": "Light Blue",
+      "size": "120L",
+      "total_count": 104,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Lime Green",
+      "sku": "120L-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "120L",
+      "total_count": 111,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Orange",
+      "sku": "120L-BIN-ORANGE",
+      "color": "Orange",
+      "size": "120L",
+      "total_count": 53,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Red",
+      "sku": "120L-BIN-RED",
+      "color": "Red",
+      "size": "120L",
+      "total_count": 76,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Royal Blue",
+      "sku": "120L-BIN-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "120L",
+      "total_count": 75,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin White",
+      "sku": "120L-BIN-WHITE",
+      "color": "White",
+      "size": "120L",
+      "total_count": 15,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "120L Bin Yellow",
+      "sku": "120L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "120L",
+      "total_count": 87,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "160L Bin Dark Green",
+      "sku": "160L-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "160L",
+      "total_count": 7,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "160L Bin Dark Grey",
+      "sku": "160L-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "160L",
+      "total_count": 1,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "160L Bin Red",
+      "sku": "160L-BIN-RED",
+      "color": "Red",
+      "size": "160L",
+      "total_count": 13,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "160L Bin Yellow",
+      "sku": "160L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "160L",
+      "total_count": 19,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Black",
+      "sku": "240L-BIN-BLACK",
+      "color": "Black",
+      "size": "240L",
+      "total_count": 63,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Dark Green",
+      "sku": "240L-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "240L",
+      "total_count": 53,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Dark Grey",
+      "sku": "240L-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "240L",
+      "total_count": 20,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Light Blue",
+      "sku": "240L-BIN-LIGHT-BLUE",
+      "color": "Light Blue",
+      "size": "240L",
+      "total_count": 120,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Lime Green",
+      "sku": "240L-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "240L",
+      "total_count": 43,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Orange",
+      "sku": "240L-BIN-ORANGE",
+      "color": "Orange",
+      "size": "240L",
+      "total_count": 41,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Purple",
+      "sku": "240L-BIN-PURPLE",
+      "color": "Purple",
+      "size": "240L",
+      "total_count": 47,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Red",
+      "sku": "240L-BIN-RED",
+      "color": "Red",
+      "size": "240L",
+      "total_count": 83,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Royal Blue",
+      "sku": "240L-BIN-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "240L",
+      "total_count": 43,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Shadow Green",
+      "sku": "240L-BIN-SHADOW-GREEN",
+      "color": "Shadow Green",
+      "size": "240L",
+      "total_count": 23,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin White",
+      "sku": "240L-BIN-WHITE",
+      "color": "White",
+      "size": "240L",
+      "total_count": 15,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "240L Bin Yellow",
+      "sku": "240L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "240L",
+      "total_count": 58,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "360L Bin Dark Green",
+      "sku": "360L-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "360L",
+      "total_count": 12,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "360L Bin Lime Green",
+      "sku": "360L-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "360L",
+      "total_count": 18,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "360L Bin Royal Blue",
+      "sku": "360L-BIN-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "360L",
+      "total_count": 16,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "360L Bin Yellow",
+      "sku": "360L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "360L",
+      "total_count": 6,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "500L Bin Dark Grey",
+      "sku": "500L-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "500L",
+      "total_count": 2,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "660L Bin Dark Grey",
+      "sku": "660L-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "660L",
+      "total_count": 2,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "660L Bin Orange",
+      "sku": "660L-BIN-ORANGE",
+      "color": "Orange",
+      "size": "660L",
+      "total_count": 3,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "660L Bin Red",
+      "sku": "660L-BIN-RED",
+      "color": "Red",
+      "size": "660L",
+      "total_count": 12,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "660L Bin Shadow Green",
+      "sku": "660L-BIN-SHADOW-GREEN",
+      "color": "Shadow Green",
+      "size": "660L",
+      "total_count": 70,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "660L Bin Yellow",
+      "sku": "660L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "660L",
+      "total_count": 11,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Black",
+      "sku": "80L-BIN-BLACK",
+      "color": "Black",
+      "size": "80L",
+      "total_count": 68,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Lime Green",
+      "sku": "80L-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "80L",
+      "total_count": 27,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Orange",
+      "sku": "80L-BIN-ORANGE",
+      "color": "Orange",
+      "size": "80L",
+      "total_count": 3,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Purple",
+      "sku": "80L-BIN-PURPLE",
+      "color": "Purple",
+      "size": "80L",
+      "total_count": 70,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Red",
+      "sku": "80L-BIN-RED",
+      "color": "Red",
+      "size": "80L",
+      "total_count": 26,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Royal Blue",
+      "sku": "80L-BIN-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "80L",
+      "total_count": 61,
+      "locations": ""
+    },
+    {
+      "category": "Bin",
+      "item": "80L Bin Yellow",
+      "sku": "80L-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "80L",
+      "total_count": 35,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "1100L Lid Dark Green",
+      "sku": "1100L-LID-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "1100L",
+      "total_count": 32,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "1100L Lid Dark Grey",
+      "sku": "1100L-LID-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "1100L",
+      "total_count": 15,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "1100L Lid Lime Green",
+      "sku": "1100L-LID-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "1100L",
+      "total_count": 5,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "1100L Lid Red",
+      "sku": "1100L-LID-RED",
+      "color": "Red",
+      "size": "1100L",
+      "total_count": 5,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "1100L Lid Royal Blue",
+      "sku": "1100L-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "1100L",
+      "total_count": 14,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Black",
+      "sku": "120L-LID-BLACK",
+      "color": "Black",
+      "size": "120L",
+      "total_count": 132,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Dark Green",
+      "sku": "120L-LID-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "120L",
+      "total_count": 86,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Dark Grey",
+      "sku": "120L-LID-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "120L",
+      "total_count": 42,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Light Blue",
+      "sku": "120L-LID-LIGHT-BLUE",
+      "color": "Light Blue",
+      "size": "120L",
+      "total_count": 190,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Lime Green",
+      "sku": "120L-LID-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "120L",
+      "total_count": 144,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Orange",
+      "sku": "120L-LID-ORANGE",
+      "color": "Orange",
+      "size": "120L",
+      "total_count": 108,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Purple",
+      "sku": "120L-LID-PURPLE",
+      "color": "Purple",
+      "size": "120L",
+      "total_count": 132,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Red",
+      "sku": "120L-LID-RED",
+      "color": "Red",
+      "size": "120L",
+      "total_count": 98,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Royal Blue",
+      "sku": "120L-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "120L",
+      "total_count": 136,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid White",
+      "sku": "120L-LID-WHITE",
+      "color": "White",
+      "size": "120L",
+      "total_count": 60,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "120L Lid Yellow",
+      "sku": "120L-LID-YELLOW",
+      "color": "Yellow",
+      "size": "120L",
+      "total_count": 40,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Black",
+      "sku": "240L-LID-BLACK",
+      "color": "Black",
+      "size": "240L",
+      "total_count": 211,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Dark Green",
+      "sku": "240L-LID-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "240L",
+      "total_count": 48,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Dark Grey",
+      "sku": "240L-LID-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "240L",
+      "total_count": 40,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Light Blue",
+      "sku": "240L-LID-LIGHT-BLUE",
+      "color": "Light Blue",
+      "size": "240L",
+      "total_count": 117,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Lime Green",
+      "sku": "240L-LID-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "240L",
+      "total_count": 19,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Orange",
+      "sku": "240L-LID-ORANGE",
+      "color": "Orange",
+      "size": "240L",
+      "total_count": 76,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Purple",
+      "sku": "240L-LID-PURPLE",
+      "color": "Purple",
+      "size": "240L",
+      "total_count": 115,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Red",
+      "sku": "240L-LID-RED",
+      "color": "Red",
+      "size": "240L",
+      "total_count": 93,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Royal Blue",
+      "sku": "240L-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "240L",
+      "total_count": 80,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Shadow Green",
+      "sku": "240L-LID-SHADOW-GREEN",
+      "color": "Shadow Green",
+      "size": "240L",
+      "total_count": 161,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid White",
+      "sku": "240L-LID-WHITE",
+      "color": "White",
+      "size": "240L",
+      "total_count": 76,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "240L Lid Yellow",
+      "sku": "240L-LID-YELLOW",
+      "color": "Yellow",
+      "size": "240L",
+      "total_count": 37,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "360L Lid Dark Green",
+      "sku": "360L-LID-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "360L",
+      "total_count": 35,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "360L Lid Lime Green",
+      "sku": "360L-LID-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "360L",
+      "total_count": 35,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "360L Lid Red",
+      "sku": "360L-LID-RED",
+      "color": "Red",
+      "size": "360L",
+      "total_count": 5,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "360L Lid Royal Blue",
+      "sku": "360L-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "360L",
+      "total_count": 26,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Dark Grey",
+      "sku": "660L-LID-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "660L",
+      "total_count": 10,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Lime Green",
+      "sku": "660L-LID-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "660L",
+      "total_count": 16,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Orange",
+      "sku": "660L-LID-ORANGE",
+      "color": "Orange",
+      "size": "660L",
+      "total_count": 25,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Red",
+      "sku": "660L-LID-RED",
+      "color": "Red",
+      "size": "660L",
+      "total_count": 43,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Royal Blue",
+      "sku": "660L-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "660L",
+      "total_count": 18,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Shadow Green",
+      "sku": "660L-LID-SHADOW-GREEN",
+      "color": "Shadow Green",
+      "size": "660L",
+      "total_count": 111,
+      "locations": ""
+    },
+    {
+      "category": "Lid",
+      "item": "660L Lid Yellow",
+      "sku": "660L-LID-YELLOW",
+      "color": "Yellow",
+      "size": "660L",
+      "total_count": 20,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "120L Pedal Bin Dark Green",
+      "sku": "120L-PEDAL-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "120L",
+      "total_count": 13,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "120L Pedal Bin Dark Grey",
+      "sku": "120L-PEDAL-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "120L",
+      "total_count": 18,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "120L Pedal Bin Lime Green",
+      "sku": "120L-PEDAL-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "120L",
+      "total_count": 3,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "120L Pedal Bin Red",
+      "sku": "120L-PEDAL-BIN-RED",
+      "color": "Red",
+      "size": "120L",
+      "total_count": 35,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "120L Pedal Bin Yellow",
+      "sku": "120L-PEDAL-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "120L",
+      "total_count": 24,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "240L Pedal Bin Dark Green",
+      "sku": "240L-PEDAL-BIN-DARK-GREEN",
+      "color": "Dark Green",
+      "size": "240L",
+      "total_count": 12,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "240L Pedal Bin Dark Grey",
+      "sku": "240L-PEDAL-BIN-DARK-GREY",
+      "color": "Dark Grey",
+      "size": "240L",
+      "total_count": 39,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "240L Pedal Bin Red",
+      "sku": "240L-PEDAL-BIN-RED",
+      "color": "Red",
+      "size": "240L",
+      "total_count": 24,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "240L Pedal Bin Yellow",
+      "sku": "240L-PEDAL-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "240L",
+      "total_count": 24,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "80L Pedal Bin Black",
+      "sku": "80L-PEDAL-BIN-BLACK",
+      "color": "Black",
+      "size": "80L",
+      "total_count": 35,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "80L Pedal Bin Lime Green",
+      "sku": "80L-PEDAL-BIN-LIME-GREEN",
+      "color": "Lime Green",
+      "size": "80L",
+      "total_count": 13,
+      "locations": ""
+    },
+    {
+      "category": "Pedal Bin",
+      "item": "80L Pedal Bin Yellow",
+      "sku": "80L-PEDAL-BIN-YELLOW",
+      "color": "Yellow",
+      "size": "80L",
+      "total_count": 26,
+      "locations": ""
+    },
+    {
+      "category": "Spare Parts",
+      "item": "Dome bins",
+      "sku": "DOME-BINS",
+      "color": "",
+      "size": "",
+      "total_count": 18,
+      "locations": ""
+    },
+    {
+      "category": "Spare Parts",
+      "item": "Flip tops",
+      "sku": "FLIP-TOPS",
+      "color": "",
+      "size": "",
+      "total_count": 25,
+      "locations": ""
+    },
+    {
+      "category": "Vermin Lid",
+      "item": "120L Vermin Lid Royal Blue",
+      "sku": "120L-VERMIN-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "120L",
+      "total_count": 38,
+      "locations": ""
+    },
+    {
+      "category": "Vermin Lid",
+      "item": "120L Vermin Lid Yellow",
+      "sku": "120L-VERMIN-LID-YELLOW",
+      "color": "Yellow",
+      "size": "120L",
+      "total_count": 46,
+      "locations": ""
+    },
+    {
+      "category": "Vermin Lid",
+      "item": "240L Vermin Lid Red",
+      "sku": "240L-VERMIN-LID-RED",
+      "color": "Red",
+      "size": "240L",
+      "total_count": 17,
+      "locations": ""
+    },
+    {
+      "category": "Vermin Lid",
+      "item": "240L Vermin Lid Royal Blue",
+      "sku": "240L-VERMIN-LID-ROYAL-BLUE",
+      "color": "Royal Blue",
+      "size": "240L",
+      "total_count": 16,
+      "locations": ""
+    },
+    {
+      "category": "Vermin Lid",
+      "item": "240L Vermin Lid Yellow",
+      "sku": "240L-VERMIN-LID-YELLOW",
+      "color": "Yellow",
+      "size": "240L",
+      "total_count": 37,
+      "locations": ""
+    }
+  ]
+}
