@@ -16,7 +16,7 @@ export default function Error({
       <button
         type="button"
         onClick={() => reset()}
-        className="w-fit rounded-md bg-[var(--header)] px-3 py-2 text-sm text-white"
+        className="w-fit rounded-lg bg-neutral-900 px-3 py-2 text-sm text-white"
       >
         Try again
       </button>
