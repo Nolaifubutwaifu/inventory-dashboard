@@ -1,5 +1,10 @@
 export const LOW_STOCK_MAX = 5;
+export const RUNNING_LOW_MAX = 15;
+export const COUNT_MIN = -1_000_000;
+export const COUNT_MAX = 1_000_000;
 export const INVENTORY_BLOB_PATH = "inventory.json";
+
+export type StockLevel = "backorder" | "out" | "reorder" | "low" | "in";
 
 const CATEGORY_ORDER = ["Bin", "Lid", "Pedal Bin", "Vermin Lid", "Spare Parts"];
 const MAX_ITEMS = 5000;
@@ -113,6 +118,42 @@ export function totalCount(items: readonly InventoryItem[]): number {
   let sum = 0;
   for (const item of items) sum += item.total_count;
   return sum;
+}
+
+export function onHandTotal(inventory: Pick<Inventory, "items" | "meta">): number {
+  if (inventory.meta.grand_total !== null) return inventory.meta.grand_total;
+  return totalCount(inventory.items);
+}
+
+export function stockLevel(count: number): StockLevel {
+  if (count < 0) return "backorder";
+  if (count === 0) return "out";
+  if (count <= LOW_STOCK_MAX) return "reorder";
+  if (count <= RUNNING_LOW_MAX) return "low";
+  return "in";
+}
+
+export function formatCountedAt(value: string): string {
+  const naive = value.match(
+    /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::\d{2})?$/,
+  );
+  if (naive) return formatWallClock(naive, false);
+
+  if (/[zZ]|[+-]\d{2}:?\d{2}$/.test(value)) {
+    const date = new Date(value);
+    if (!Number.isNaN(date.getTime())) {
+      return new Intl.DateTimeFormat("en-AU", {
+        timeZone: "Australia/Brisbane",
+        day: "numeric",
+        month: "short",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }).format(date);
+    }
+  }
+
+  return value;
 }
 
 export function lowStockCount(items: readonly InventoryItem[]): number {
@@ -243,7 +284,7 @@ export function parseInventory(input: unknown): ParseResult {
   };
 }
 
-function formatWallClock(match: RegExpMatchArray): string {
+function formatWallClock(match: RegExpMatchArray, withYear = true): string {
   const year = match[1] ?? "";
   const monthIndex = Number(match[2]) - 1;
   const day = Number(match[3]);
@@ -252,7 +293,8 @@ function formatWallClock(match: RegExpMatchArray): string {
   const month = MONTHS[monthIndex] ?? match[2];
   const hour12 = hour % 12 || 12;
   const suffix = hour < 12 ? "am" : "pm";
-  return `${day} ${month} ${year}, ${hour12}:${minute} ${suffix}`;
+  const date = withYear ? `${day} ${month} ${year}` : `${day} ${month}`;
+  return `${date}, ${hour12}:${minute} ${suffix}`;
 }
 
 function compareItems(a: InventoryItem, b: InventoryItem, key: SortKey): number {
@@ -298,7 +340,7 @@ function parseMeta(
   if (input.grand_total != null && input.grand_total !== "") {
     const count = normaliseCount(input.grand_total);
     if (count == null) {
-      return { ok: false, error: "meta.grand_total must be a non-negative number." };
+      return { ok: false, error: countError("meta.grand_total") };
     }
     grandTotal = count;
   }
@@ -333,7 +375,7 @@ function parseItem(
   if (total == null) {
     return {
       ok: false,
-      error: `items[${index}].total_count must be a non-negative number.`,
+      error: countError(`items[${index}].total_count`),
     };
   }
 
@@ -350,13 +392,17 @@ function parseItem(
   };
 }
 
+function countError(label: string): string {
+  return `${label} must be a number from ${COUNT_MIN} to ${COUNT_MAX}.`;
+}
+
 function normaliseCount(value: unknown): number | null {
   let numeric = value;
   if (typeof numeric === "string" && /^-?\d+(\.\d+)?$/.test(numeric.trim())) {
     numeric = Number(numeric.trim());
   }
   if (typeof numeric !== "number" || !Number.isFinite(numeric)) return null;
-  if (numeric < 0 || numeric > 1_000_000) return null;
+  if (numeric < COUNT_MIN || numeric > COUNT_MAX) return null;
   return Math.round(numeric);
 }
 
