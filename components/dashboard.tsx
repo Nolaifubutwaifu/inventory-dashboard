@@ -12,7 +12,9 @@ import {
   formatNumber,
   formatUpdatedAt,
   lowStockCount,
+  onHandTotal,
   sortItems,
+  stockLevel,
   totalCount,
   type Inventory,
   type InventoryItem,
@@ -59,9 +61,9 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
   const [sortDir, setSortDir] = useState<SortDirection>("desc");
 
   const summaries = categorySummaries(inventory.items);
-  const grandTotal = totalCount(inventory.items);
+  const lineSum = totalCount(inventory.items);
+  const onHand = onHandTotal(inventory);
   const lowCount = lowStockCount(inventory.items);
-  const sheetTotal = inventory.meta.grand_total;
   const visible = sortItems(
     filterItems(inventory.items, query, category, lowOnly),
     sortKey,
@@ -125,13 +127,20 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
               <p className="text-xs font-medium tracking-wide text-[var(--muted)] uppercase">
                 On hand
               </p>
-              <p className="mt-1 text-3xl font-semibold tabular-nums text-[var(--accent)]">
-                {formatNumber(grandTotal)}
+              <p
+                className={`mt-1 text-3xl font-semibold tabular-nums ${onHand < 0 ? "text-[#6e1d24]" : "text-[var(--accent)]"}`}
+                title={
+                  inventory.meta.grand_total !== null && inventory.meta.grand_total !== lineSum
+                    ? `Sheet total ${formatNumber(onHand)}. Line counts sum to ${formatNumber(lineSum)}.`
+                    : undefined
+                }
+              >
+                {formatNumber(onHand)}
               </p>
               <p className="mt-1 text-xs text-[var(--muted)]">
                 {formatNumber(inventory.items.length)} SKUs
-                {sheetTotal !== null && sheetTotal !== grandTotal ? (
-                  <> · Sheet total {formatNumber(sheetTotal)}</>
+                {inventory.meta.grand_total !== null && inventory.meta.grand_total !== lineSum ? (
+                  <> · Line sum {formatNumber(lineSum)}</>
                 ) : null}
               </p>
             </article>
@@ -152,7 +161,9 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
                 }`}
               >
                 <p className="text-xs text-[var(--muted)]">{summary.category}</p>
-                <p className="mt-1 text-xl font-semibold tabular-nums">
+                <p
+                  className={`mt-1 text-xl font-semibold tabular-nums ${summary.total < 0 ? "text-[#6e1d24]" : ""}`}
+                >
                   {formatNumber(summary.total)}
                 </p>
                 <p className="text-xs text-[var(--muted)]">
@@ -188,9 +199,12 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
               .toSorted((a, b) => b.total - a.total)
               .map((summary) => {
                 const width =
-                  chartMax === 0
+                  chartMax <= 0
                     ? 0
-                    : Math.max(2, Math.round((summary.total / chartMax) * 100));
+                    : Math.max(
+                        summary.total > 0 ? 2 : 0,
+                        Math.round((Math.max(summary.total, 0) / chartMax) * 100),
+                      );
                 return (
                   <li
                     key={summary.category}
@@ -261,7 +275,9 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
           <p className="text-sm text-[var(--muted)]" aria-live="polite">
             Showing {formatNumber(visible.length)} of{" "}
             {formatNumber(inventory.items.length)}
-            {lowOnly ? ` · count ≤ ${LOW_STOCK_MAX} highlighted` : ` · rows with ${LOW_STOCK_MAX} or fewer are highlighted`}
+            {lowOnly
+              ? ` · count ≤ ${LOW_STOCK_MAX}, including backorders`
+              : " · backorders in dark red, zero out of stock, 5 or fewer highlighted"}
           </p>
 
           <ul className="flex flex-col gap-2 md:hidden">
@@ -297,11 +313,10 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
               </thead>
               <tbody>
                 {visible.map((item) => {
-                  const low = item.total_count <= LOW_STOCK_MAX;
                   return (
                     <tr
                       key={item.sku}
-                      className={low ? "bg-[var(--low-bg)]" : "bg-[var(--card)]"}
+                      className={rowTone(item.total_count)}
                     >
                       <td className="border-t border-[var(--line)] px-3 py-2">
                         {item.category}
@@ -318,13 +333,8 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
                       <td className="border-t border-[var(--line)] px-3 py-2">
                         {displayText(item.size)}
                       </td>
-                      <td className="border-t border-[var(--line)] px-3 py-2 text-right font-semibold tabular-nums">
-                        {formatNumber(item.total_count)}
-                        {low ? (
-                          <span className="ml-2 text-xs font-medium text-[var(--low)]">
-                            Low
-                          </span>
-                        ) : null}
+                      <td className="border-t border-[var(--line)] px-3 py-2 text-right">
+                        <CountReadout count={item.total_count} />
                       </td>
                       {showLocations ? (
                         <td className="border-t border-[var(--line)] px-3 py-2">
@@ -363,23 +373,14 @@ function StockCard({
   item: InventoryItem;
   showLocations: boolean;
 }) {
-  const low = item.total_count <= LOW_STOCK_MAX;
+  const level = stockLevel(item.total_count);
   return (
     <li
-      className={`rounded-md border px-3 py-3 ${
-        low
-          ? "border-[#f0d3b8] bg-[var(--low-bg)]"
-          : "border-[var(--line)] bg-[var(--card)]"
-      }`}
+      className={`rounded-md border px-3 py-3 ${cardTone(level)}`}
     >
       <div className="flex items-start justify-between gap-3">
         <p className="font-medium">{item.item}</p>
-        <p className="font-semibold tabular-nums">
-          {formatNumber(item.total_count)}
-          {low ? (
-            <span className="ml-2 text-xs font-medium text-[var(--low)]">Low</span>
-          ) : null}
-        </p>
+        <CountReadout count={item.total_count} />
       </div>
       <p className="mt-1 font-mono text-xs text-[var(--muted)]">{item.sku}</p>
       <p className="mt-1 text-sm text-[var(--muted)]">
@@ -394,6 +395,53 @@ function StockCard({
       ) : null}
     </li>
   );
+}
+
+function CountReadout({ count }: { count: number }) {
+  const level = stockLevel(count);
+  const number = formatNumber(count);
+  if (level === "backorder") {
+    return (
+      <span className="font-semibold text-[#6e1d24] tabular-nums">
+        {number}
+        <span className="ml-2 text-xs font-medium">Backorder</span>
+      </span>
+    );
+  }
+  if (level === "out") {
+    return (
+      <span className="font-semibold text-neutral-700 tabular-nums">
+        {number}
+        <span className="ml-2 text-xs font-semibold tracking-wide text-neutral-500">
+          Out
+        </span>
+      </span>
+    );
+  }
+  if (level === "reorder") {
+    return (
+      <span className="font-semibold tabular-nums">
+        {number}
+        <span className="ml-2 text-xs font-medium text-[var(--low)]">Low</span>
+      </span>
+    );
+  }
+  return <span className="font-semibold tabular-nums">{number}</span>;
+}
+
+function rowTone(count: number): string {
+  const level = stockLevel(count);
+  if (level === "backorder") return "bg-[#fde8e8]";
+  if (level === "out") return "bg-[#f4f4f5]";
+  if (level === "reorder") return "bg-[var(--low-bg)]";
+  return "bg-[var(--card)]";
+}
+
+function cardTone(level: ReturnType<typeof stockLevel>): string {
+  if (level === "backorder") return "border-[#e7c3c3] bg-[#fde8e8]";
+  if (level === "out") return "border-neutral-300 bg-[#f4f4f5]";
+  if (level === "reorder") return "border-[#f0d3b8] bg-[var(--low-bg)]";
+  return "border-[var(--line)] bg-[var(--card)]";
 }
 
 function ColourLabel({ colour }: { colour: string }) {

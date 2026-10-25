@@ -60,7 +60,11 @@ Copy `.env.example` to `.env.local` for local Blob trials. Do not commit secrets
 }
 ```
 
-`updated_at` without a timezone is shown as wall-clock time (not shifted into another zone). `locations` may be a string or an object of place → count. Counts of 5 or fewer are marked low stock. The on-hand total is the sum of `total_count`. `meta.grand_total` is shown beside it when the sheet total differs.
+`updated_at` without a timezone is shown as wall-clock time (not shifted into another zone). `locations` may be a string or an object of place → count.
+
+`total_count` and `meta.grand_total` are whole numbers from -1,000,000 to 1,000,000. Decimals are rounded. A negative count is a backorder, shown as the negative number in dark red. Zero is out of stock, and is not styled as a backorder. Counts from 1 to 5 are still marked low stock.
+
+The on-hand headline is `meta.grand_total` when the sheet sends one (the office total), otherwise the sum of `total_count`.
 
 ```bash
 curl -X POST "$APP_URL/api/inventory/update" \
@@ -69,7 +73,7 @@ curl -X POST "$APP_URL/api/inventory/update" \
   --data-binary @data/inventory.json
 ```
 
-A successful post returns `{ "ok": true, "items", "grand_total", "updated_at" }`.
+A successful post returns `{ "ok": true, "items", "grand_total", "sheet_total", "updated_at" }`. `grand_total` in that response is still the sum of line counts. `sheet_total` is `meta.grand_total`.
 
 `GET /api/inventory` returns the current JSON (`Cache-Control: no-store`): Blob when the object exists, otherwise the seeded file.
 
