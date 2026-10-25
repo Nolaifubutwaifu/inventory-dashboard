@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Brisbins Inventory",
-  description: "Current Brisbins warehouse stock.",
+  title: "Brisbins Stock matrix",
+  description: "Current Brisbins warehouse stock by colour and size.",
   robots: { index: false, follow: false },
 };
 

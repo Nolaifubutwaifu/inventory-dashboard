@@ -62,9 +62,9 @@ Copy `.env.example` to `.env.local` for local Blob trials. Do not commit secrets
 
 `updated_at` without a timezone is shown as wall-clock time (not shifted into another zone). `locations` may be a string or an object of place → count.
 
-`total_count` and `meta.grand_total` are whole numbers from -1,000,000 to 1,000,000. Decimals are rounded. A negative count is a backorder, shown as the negative number in dark red. Zero is out of stock, and is not styled as a backorder. Counts from 1 to 5 are still marked low stock.
+`total_count` and `meta.grand_total` are whole numbers from -1,000,000 to 1,000,000. Decimals are rounded. A negative count is a backorder; zero is out of stock. The headline on-hand figure is `meta.grand_total` when the sheet sends one (the office total, for example 4,983), and otherwise the sum of `total_count`.
 
-The on-hand headline is `meta.grand_total` when the sheet sends one (the office total), otherwise the sum of `total_count`.
+The stock matrix groups wheelie bins and lids by colour and size. 80L and 120L lids are pooled into one 80/120L column. Pedal bins, vermin lids, flip tops, and dome bins have their own panels. A line that does not match those groups is listed under Other lines. Counts of 1–5 are reorder, and 6–15 are running low.
 
 ```bash
 curl -X POST "$APP_URL/api/inventory/update" \
@@ -79,6 +79,6 @@ A successful post returns `{ "ok": true, "items", "grand_total", "sheet_total", 
 
 ## Routes
 
-- `/` — dashboard
+- `/` — stock matrix
 - `GET /api/inventory` — current stock JSON
 - `POST /api/inventory/update` — replace stock in Blob

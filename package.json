@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test lib/inventory.test.ts"
+    "test": "tsx --test lib/*.test.ts"
   },
   "dependencies": {
     "@vercel/blob": "^2.6.1",
