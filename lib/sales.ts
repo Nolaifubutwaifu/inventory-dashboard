@@ -281,6 +281,92 @@ export function coverTradingDays(assumptions: OrderAssumptions): number {
   return weeks * TRADING_DAYS_PER_WEEK;
 }
 
+export type RatedLine = {
+  id: string;
+  kind: LineKind;
+  size: string;
+  colour: string;
+  sold: number;
+  perDay: number;
+};
+
+export function rateLineFromParts(
+  kind: LineKind,
+  size: string,
+  colour: string,
+  sold: number,
+  perDay: number,
+): RatedLine {
+  const norm = normaliseParts(kind, size, colour);
+  return {
+    id: lineId(norm),
+    kind: norm.kind,
+    size: norm.sizeLabel,
+    colour: norm.colourLabel,
+    sold,
+    perDay,
+  };
+}
+
+export function containerFromRates(
+  rates: readonly RatedLine[],
+  stock: readonly InventoryItem[],
+  assumptions: OrderAssumptions,
+): SalesView["container"] {
+  const coverDays = coverTradingDays(assumptions);
+  const stockIndex = indexStock(stock);
+  const seen = new Set(rates.map((line) => line.id));
+  const suggestionSeed: Omit<SuggestionLine, "orderQty">[] = rates.map((line) => {
+    const entry = line.kind === "bin" || line.kind === "lid" ? stockIndex.get(line.id) : undefined;
+    const matched = entry != null;
+    const onHand = line.kind === "part" || line.kind === "other" ? null : (entry?.onHand ?? 0);
+    const coverDemand = line.perDay * coverDays;
+    return {
+      id: line.id,
+      kind: line.kind,
+      size: line.size,
+      colour: line.colour,
+      sold: line.sold,
+      onHand,
+      matched,
+      coverDemand,
+      suggested: onHand == null ? suggestedQty(coverDemand, 0) : suggestedQty(coverDemand, onHand),
+      fromBackorder: false,
+    };
+  });
+
+  for (const [id, entry] of stockIndex) {
+    if (entry.onHand >= 0 || seen.has(id)) continue;
+    suggestionSeed.push({
+      id,
+      kind: entry.kind,
+      size: entry.size,
+      colour: entry.colour,
+      sold: 0,
+      onHand: entry.onHand,
+      matched: true,
+      coverDemand: 0,
+      suggested: suggestedQty(0, entry.onHand),
+      fromBackorder: true,
+    });
+  }
+
+  const ordered = applyCapacity(suggestionSeed, assumptions.capacity);
+  return {
+    leadWeeks: assumptions.leadWeeks,
+    coverWeeks: assumptions.coverWeeks,
+    totalWeeks: assumptions.leadWeeks + assumptions.coverWeeks,
+    coverTradingDays: coverDays,
+    capacity: assumptions.capacity,
+    groups: groupLines(ordered),
+    suggested: unitTotals(ordered, "suggested"),
+    ordered: unitTotals(ordered, "orderQty"),
+    limited:
+      assumptions.capacity != null &&
+      unitTotals(ordered, "orderQty").all < unitTotals(ordered, "suggested").all,
+  };
+}
+
 export function suggestedQty(demand: number, onHand: number): number {
   const raw = demand - onHand;
   if (raw <= 1e-9) return 0;
@@ -365,7 +451,6 @@ export function buildSalesView(
   const weekdays = weekdaysInMonth(next.year, next.month);
   const rateDivisor = tradingDays > 0 ? tradingDays : 0;
   const aggregated = history ? aggregateItems(sales.items, history.start, history.end) : new Map();
-  const stockIndex = indexStock(stock);
   const partial = history ? partialDay(sales, history.end) : null;
 
   const forecastLines: ForecastLine[] = [...aggregated.entries()].map(([id, row]) => {
@@ -381,44 +466,6 @@ export function buildSalesView(
     };
   });
 
-  const coverDays = coverTradingDays(assumptions);
-  const suggestionSeed: Omit<SuggestionLine, "orderQty">[] = forecastLines.map((line) => {
-    const entry = line.kind === "bin" || line.kind === "lid" ? stockIndex.get(line.id) : undefined;
-    const matched = entry != null;
-    const onHand = line.kind === "part" || line.kind === "other" ? null : (entry?.onHand ?? 0);
-    const coverDemand = rateDivisor > 0 ? (line.sold / rateDivisor) * coverDays : 0;
-    return {
-      id: line.id,
-      kind: line.kind,
-      size: line.size,
-      colour: line.colour,
-      sold: line.sold,
-      onHand,
-      matched,
-      coverDemand,
-      suggested:
-        onHand == null ? suggestedQty(coverDemand, 0) : suggestedQty(coverDemand, onHand),
-      fromBackorder: false,
-    };
-  });
-
-  for (const [id, entry] of stockIndex) {
-    if (entry.onHand >= 0 || aggregated.has(id)) continue;
-    suggestionSeed.push({
-      id,
-      kind: entry.kind,
-      size: entry.size,
-      colour: entry.colour,
-      sold: 0,
-      onHand: entry.onHand,
-      matched: true,
-      coverDemand: 0,
-      suggested: suggestedQty(0, entry.onHand),
-      fromBackorder: true,
-    });
-  }
-
-  const ordered = applyCapacity(suggestionSeed, assumptions.capacity);
   const basis =
     history && tradingDays > 0
       ? `Based on ${tradingDays} trading ${tradingDays === 1 ? "day" : "days"}, ${formatIsoRange(history.start, history.end)}.`
@@ -464,17 +511,7 @@ export function buildSalesView(
       groups: groupLines(forecastLines),
       hasHistory: history != null && tradingDays > 0,
     },
-    container: {
-      leadWeeks: assumptions.leadWeeks,
-      coverWeeks: assumptions.coverWeeks,
-      totalWeeks: assumptions.leadWeeks + assumptions.coverWeeks,
-      coverTradingDays: coverDays,
-      capacity: assumptions.capacity,
-      groups: groupLines(ordered),
-      suggested: unitTotals(ordered, "suggested"),
-      ordered: unitTotals(ordered, "orderQty"),
-      limited: assumptions.capacity != null && unitTotals(ordered, "orderQty").all < unitTotals(ordered, "suggested").all,
-    },
+    container: containerFromRates(forecastLines, stock, assumptions),
   };
 }
 
@@ -808,7 +845,7 @@ function nextMonth(year: number, month: number): { year: number; month: number }
   return { year, month: month + 1 };
 }
 
-function shiftMonths(iso: string, months: number): string {
+export function shiftMonths(iso: string, months: number): string {
   const { year, month, day } = splitIso(iso);
   const anchor = new Date(Date.UTC(year, month - 1 + months, 1));
   const dim = new Date(

@@ -33,7 +33,10 @@ Until the first successful upload, the live site shows `data/inventory.json`.
 | --- | --- | --- |
 | `BLOB_READ_WRITE_TOKEN` | Yes, for token-based stores | Read-write token from the connected Blob store. Newer private stores may inject `BLOB_STORE_ID` and use OIDC instead; the SDK accepts either. |
 | `BLOB_ACCESS` | No | `private` (default) or `public`. Must match the store. Use `private`. |
-| `INVENTORY_UPDATE_SECRET` | Yes, to accept uploads | Long random string. Send it as `Authorization: Bearer <secret>`. |
+| `INVENTORY_UPDATE_SECRET` | Yes, to accept uploads | Long random string. Send it as `Authorization: Bearer <secret>`. Used by the inventory, sales, and history uploads. |
+| `DASHBOARD_PASSWORD` | No | When set, the site asks for this password and stores a signed httpOnly cookie. Leave unset to keep the dashboard open. Upload routes still use the bearer token and are not blocked by the cookie. |
+| `SHOW_CUSTOMERS` | No | Set to `true` to show top customer names from history. Hidden unless this is exactly `true` and the file is not redacted. |
+| `HISTORY_PREVIEW` | No | Set to `1` locally to show `data/history.sample.json` when Blob has no `history.json`. Leave unset in production. |
 
 Copy `.env.example` to `.env.local` for local Blob trials. Do not commit secrets.
 
@@ -84,6 +87,10 @@ A successful post returns `{ "ok": true, "items", "grand_total", "sheet_total", 
 - `POST /api/inventory/update` — replace stock in Blob
 - `GET /api/sales` — current `sales.json`, or `{ "sales": null }` when none is stored
 - `POST /api/sales/update` — replace `sales.json` in the same private Blob store
+- `POST /api/history/update` — replace private `history.json`. There is no public GET for history
+- `POST /api/auth/login` — set the dashboard cookie when `DASHBOARD_PASSWORD` is set
+
+`GET /api/inventory` and `GET /api/sales` stay unauthenticated JSON reads, as they are today. This repo does not set `Access-Control-Allow-Origin` on them. History is not given the same read route, because it includes customer names and revenue. The page reads it on the server. When `DASHBOARD_PASSWORD` is set, those GET routes sit behind the same cookie as the page. The upload POSTs do not.
 
 ## Sales
 
@@ -137,3 +144,26 @@ curl -X POST "$APP_URL/api/sales/update" \
 ```
 
 A successful post returns `{ "ok": true, "pathname": "sales.json", "items", "totals", "updated_at" }`.
+
+## Sales history
+
+`POST /api/history/update` uses the same bearer token. The body is `history.json` from `sync_history.py` (`schema_version` 1). The blob keeps the uploaded JSON. The Sales tab reads it on the server and does not publish a raw history route.
+
+The tab keeps the daily sales file as a fallback. When history is present it shows sales by month with the same month last year, a month-of-year profile, average order value, freight share, credit notes, and invoice counts. Top customers (last 3, 6, 12, or 24 months) render only when `SHOW_CUSTOMERS=true` and `customers_redacted` is false.
+
+Bin and lid quantities come from `units_monthly`. The coverage line uses `coverage.units`, including `final`: the line says `complete` or `in progress`. Months below full item coverage are marked and greyed. `coverage.units.description_amounts_inc_gst` is noted separately. Those amounts are not the sales totals.
+
+Unit forecasts use days from `coverage.units.complete_from_date` (at most the last 6 months) and size mixes from months whose `unit_coverage` is full. Money trends use the full money history in that 6 month window. A low confidence note stays until the unit window covers about 3 months. A seasonal adjustment, from the same month last year against the trailing full months, is shown and off until turned on. Lead time, cover, and container capacity stay editable (8 weeks, 8 weeks, blank).
+
+```bash
+curl -X POST "$APP_URL/api/history/update" \
+  -H "Authorization: Bearer $INVENTORY_UPDATE_SECRET" \
+  -H "Content-Type: application/json" \
+  --data-binary @data/history.sample.json
+```
+
+A successful post returns `{ "ok": true, "pathname": "history.json", "schema_version", "months", "days", "generated_at" }`.
+
+Set `HISTORY_PREVIEW=1` locally to show `data/history.sample.json` when Blob has no history file.
+
+The optional password is a signed httpOnly cookie, checked in `proxy.ts` (the Next.js proxy, the current name for middleware). It stays off unless `DASHBOARD_PASSWORD` is set. `/api/inventory/update`, `/api/sales/update`, and `/api/history/update` keep working with the bearer token.
