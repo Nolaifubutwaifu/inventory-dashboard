@@ -79,6 +79,61 @@ A successful post returns `{ "ok": true, "items", "grand_total", "sheet_total", 
 
 ## Routes
 
-- `/` — stock matrix
+- `/` — stock matrix, with a Sales tab between Needs attention and Export
 - `GET /api/inventory` — current stock JSON
 - `POST /api/inventory/update` — replace stock in Blob
+- `GET /api/sales` — current `sales.json`, or `{ "sales": null }` when none is stored
+- `POST /api/sales/update` — replace `sales.json` in the same private Blob store
+
+## Sales
+
+`POST /api/sales/update` uses the same bearer token as the inventory upload. The body is stored as `sales.json`:
+
+```json
+{
+  "updated_at": "2026-10-27T12:45:54",
+  "source": "Brisbins_Daily_Sales_History.xlsx",
+  "items": [
+    {
+      "date": "2026-10-20",
+      "type": "Bin",
+      "size": "240L",
+      "colour": "Red",
+      "qty": 4,
+      "invoices": "00008120, 00008121"
+    }
+  ],
+  "totals": [
+    {
+      "date": "2026-10-20",
+      "invoices": 3,
+      "bins": 10,
+      "lids": 4,
+      "parts": 0,
+      "sales_ex_gst": 1234.5,
+      "sales_incl_gst": 1357.95,
+      "freight_ex_gst": 120,
+      "notes": ""
+    }
+  ]
+}
+```
+
+`items` is one row per date, type (`Bin`, `Lid`, or `Part`), size, and colour. `invoices` is free text and may be empty. `totals` is one row per weekday, including weekdays with no sales. Weekend days are absent. Only sales are included.
+
+80L and 120L lids are one shared lid. The file may send `80L`, `120L`, or `80L/120L`; the tab treats them as `80/120L` and joins them to the stock matrix lid. Colour matching ignores capitals and extra spaces (`Dark grey` and `Dark Grey` are the same). Parts put the part name in `size` and leave `colour` empty. They are shown by name and are not joined to stock.
+
+Until `sales.json` exists, the Sales tab shows an empty state. Set `SALES_PREVIEW=1` locally to show `data/sales.sample.json` when Blob has no sales file.
+
+The forecast uses the days on file, at most the last 6 months. It does not fill days before the first sale. Trading days are weekdays on the calendar from the first date to the last, so weekends are not counted and a missing weekday inside that span counts as zero. Expected sales next month are that daily average times the weekdays in the next calendar month (Australia/Brisbane).
+
+The container suggestion is forecast demand over lead time plus cover after arrival, minus stock on hand. A negative count is a backorder and adds to the amount. The result is never below 0, and it is rounded up to a whole unit. Defaults are 8 weeks lead time, 8 weeks cover after arrival, and a blank container capacity (not capped). Those three values can be edited on the tab and are remembered in the browser.
+
+```bash
+curl -X POST "$APP_URL/api/sales/update" \
+  -H "Authorization: Bearer $INVENTORY_UPDATE_SECRET" \
+  -H "Content-Type: application/json" \
+  --data-binary @data/sales.sample.json
+```
+
+A successful post returns `{ "ok": true, "pathname": "sales.json", "items", "totals", "updated_at" }`.
