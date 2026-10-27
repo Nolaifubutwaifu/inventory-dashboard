@@ -21,15 +21,19 @@ import {
   type SizeColumn,
   type StockView,
 } from "@/lib/matrix";
+import type { Sales, SalesLoadDetail } from "@/lib/sales";
+import { SalesTab } from "@/components/sales-tab";
 
-type ViewMode = "all" | "attention";
+type ViewMode = "all" | "attention" | "sales";
 
 type DashboardProps = {
   inventory: Inventory;
   sourceLabel: string;
+  sales: Sales | null;
+  salesDetail: SalesLoadDetail;
 };
 
-export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
+export function Dashboard({ inventory, sourceLabel, sales, salesDetail }: DashboardProps) {
   const [mode, setMode] = useState<ViewMode>("all");
   const [showLow, setShowLow] = useState(false);
   const view = buildStockView(inventory.items);
@@ -52,31 +56,44 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
                 BRISBINS
               </p>
               <h1 className="text-[1.7rem] font-semibold tracking-tight text-neutral-900">
-                Stock matrix
+                {mode === "sales" ? "Sales" : "Stock matrix"}
               </h1>
             </div>
-            <p className="mt-1 text-sm text-neutral-500">
-              <span
-                className={
-                  onHand < 0
-                    ? "font-semibold text-[#6e1d24]"
-                    : "font-medium text-neutral-800"
-                }
-                title={
-                  sheetDiffers
-                    ? `Sheet total ${formatNumber(inventory.meta.grand_total ?? 0)}. Line counts sum to ${formatNumber(lineSum)}.`
-                    : undefined
-                }
-              >
-                {formatNumber(onHand)} on hand
-              </span>
-              {" · "}
-              counted {formatCountedAt(inventory.updated_at)}
-              <span className="text-neutral-400"> · {sourceLabel}</span>
-            </p>
+            {mode === "sales" ? (
+              <p className="mt-1 text-sm text-neutral-500">
+                {sales ? (
+                  <>
+                    Updated {formatCountedAt(sales.updated_at)}
+                    <span className="text-neutral-400"> · {sales.source}</span>
+                  </>
+                ) : (
+                  "No sales file yet"
+                )}
+              </p>
+            ) : (
+              <p className="mt-1 text-sm text-neutral-500">
+                <span
+                  className={
+                    onHand < 0
+                      ? "font-semibold text-[#6e1d24]"
+                      : "font-medium text-neutral-800"
+                  }
+                  title={
+                    sheetDiffers
+                      ? `Sheet total ${formatNumber(inventory.meta.grand_total ?? 0)}. Line counts sum to ${formatNumber(lineSum)}.`
+                      : undefined
+                  }
+                >
+                  {formatNumber(onHand)} on hand
+                </span>
+                {" · "}
+                counted {formatCountedAt(inventory.updated_at)}
+                <span className="text-neutral-400"> · {sourceLabel}</span>
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Which lines to show">
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Dashboard views">
               <FilterButton
                 pressed={mode === "all"}
                 onClick={() => setMode("all")}
@@ -89,6 +106,12 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
               >
                 Needs attention
               </FilterButton>
+              <FilterButton
+                pressed={mode === "sales"}
+                onClick={() => setMode("sales")}
+              >
+                Sales
+              </FilterButton>
             </div>
             <button
               type="button"
@@ -100,6 +123,10 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
           </div>
         </header>
 
+        {mode === "sales" ? (
+          <SalesTab sales={sales} salesDetail={salesDetail} items={inventory.items} />
+        ) : (
+          <>
         <Legend />
 
         <section className="rounded-2xl border border-neutral-200 bg-white px-3 py-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:px-5">
@@ -167,6 +194,8 @@ export function Dashboard({ inventory, sourceLabel }: DashboardProps) {
         </div>
 
         <OtherLines items={view.other} mode={mode} />
+          </>
+        )}
       </div>
     </div>
   );

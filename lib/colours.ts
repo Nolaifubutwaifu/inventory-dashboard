@@ -48,6 +48,16 @@ export function colourLabel(color: string): string {
   return trimmed || "Unspecified";
 }
 
+export function canonicalColour(color: string): string {
+  const key = color.trim().replace(/\s+/g, " ").toLowerCase().replaceAll("gray", "grey");
+  if (!key) return "";
+  const known = COLOUR_ORDER.find(
+    (name) => name.toLowerCase().replaceAll("gray", "grey") === key,
+  );
+  if (known) return known;
+  return key.replace(/\b[a-z]/g, (letter) => letter.toUpperCase());
+}
+
 export function compareColour(a: string, b: string): number {
   const rank = colourRank(a) - colourRank(b);
   if (rank !== 0) return rank;

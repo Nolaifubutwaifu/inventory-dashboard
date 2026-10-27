@@ -1,0 +1,450 @@
+{
+  "updated_at": "2026-10-27T12:45:54",
+  "source": "Brisbins_Daily_Sales_History.xlsx",
+  "items": [
+    {
+      "date": "2026-10-20",
+      "type": "Bin",
+      "size": "1100L",
+      "colour": "Dark green",
+      "qty": 2,
+      "invoices": "00008102"
+    },
+    {
+      "date": "2026-10-20",
+      "type": "Bin",
+      "size": "240L",
+      "colour": "Red",
+      "qty": 1,
+      "invoices": "00008098"
+    },
+    {
+      "date": "2026-10-20",
+      "type": "Bin",
+      "size": "500L",
+      "colour": "Dark grey",
+      "qty": 1,
+      "invoices": "00008103"
+    },
+    {
+      "date": "2026-10-20",
+      "type": "Lid",
+      "size": "1100L",
+      "colour": "Dark green",
+      "qty": 2,
+      "invoices": "00008102"
+    },
+    {
+      "date": "2026-10-20",
+      "type": "Lid",
+      "size": "240L",
+      "colour": "Red",
+      "qty": 1,
+      "invoices": "00008098"
+    },
+    {
+      "date": "2026-10-20",
+      "type": "Lid",
+      "size": "500L",
+      "colour": "Dark grey",
+      "qty": 1,
+      "invoices": "00008103"
+    },
+    {
+      "date": "2026-10-20",
+      "type": "Part",
+      "size": "Rotator plate supply and install",
+      "colour": "",
+      "qty": 2,
+      "invoices": "00008102"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Dark green",
+      "qty": 3,
+      "invoices": "00008108"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Dark grey",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Light blue",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Lime green",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Orange",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Red",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Royal blue",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Yellow",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "240L",
+      "colour": "Royal blue",
+      "qty": 10,
+      "invoices": "00008115"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Bin",
+      "size": "660L",
+      "colour": "Red",
+      "qty": 4,
+      "invoices": "00008119"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Dark green",
+      "qty": 3,
+      "invoices": "00008108"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Dark grey",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Light blue",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Lime green",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Orange",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Red",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Royal blue",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "120L",
+      "colour": "Yellow",
+      "qty": 1,
+      "invoices": "00008114"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "240L",
+      "colour": "Royal blue",
+      "qty": 10,
+      "invoices": "00008115"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Lid",
+      "size": "660L",
+      "colour": "Dark grey",
+      "qty": 4,
+      "invoices": "00008119"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Part",
+      "size": "240L wheels standard 200x50mm",
+      "colour": "",
+      "qty": 20,
+      "invoices": "00008118"
+    },
+    {
+      "date": "2026-10-21",
+      "type": "Part",
+      "size": "Rotator plate supply and install",
+      "colour": "",
+      "qty": 4,
+      "invoices": "00008119"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Bin",
+      "size": "660L",
+      "colour": "Dark grey",
+      "qty": 4,
+      "invoices": "00008121"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Bin",
+      "size": "660L",
+      "colour": "Dark grey",
+      "qty": 2,
+      "invoices": "00008013"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Lid",
+      "size": "660L",
+      "colour": "Dark grey",
+      "qty": 4,
+      "invoices": "00008121"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Lid",
+      "size": "660L",
+      "colour": "Dark grey",
+      "qty": 2,
+      "invoices": "00008013"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Part",
+      "size": "660L wheels non-braked",
+      "colour": "",
+      "qty": 6,
+      "invoices": "00008013"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Part",
+      "size": "Laminated stickers (pack of 2)",
+      "colour": "",
+      "qty": 1,
+      "invoices": "00008013"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Part",
+      "size": "Rotator plate supply and install",
+      "colour": "",
+      "qty": 4,
+      "invoices": "00008121"
+    },
+    {
+      "date": "2026-10-22",
+      "type": "Part",
+      "size": "Rotator plate supply and install",
+      "colour": "",
+      "qty": 2,
+      "invoices": "00008013"
+    },
+    {
+      "date": "2026-10-23",
+      "type": "Bin",
+      "size": "240L",
+      "colour": "Dark green",
+      "qty": 1,
+      "invoices": "00008127"
+    },
+    {
+      "date": "2026-10-23",
+      "type": "Lid",
+      "size": "240L",
+      "colour": "Light blue",
+      "qty": 1,
+      "invoices": "00008127"
+    },
+    {
+      "date": "2026-10-23",
+      "type": "Part",
+      "size": "Bottle hole cut and rosette installation",
+      "colour": "",
+      "qty": 1,
+      "invoices": "00008127"
+    },
+    {
+      "date": "2026-10-23",
+      "type": "Part",
+      "size": "Rosette supply",
+      "colour": "",
+      "qty": 1,
+      "invoices": "00008127"
+    },
+    {
+      "date": "2026-10-26",
+      "type": "Bin",
+      "size": "120L",
+      "colour": "Black",
+      "qty": 4,
+      "invoices": "00008097"
+    },
+    {
+      "date": "2026-10-26",
+      "type": "Bin",
+      "size": "80L",
+      "colour": "Lime green",
+      "qty": 5,
+      "invoices": "00008097"
+    },
+    {
+      "date": "2026-10-26",
+      "type": "Lid",
+      "size": "80L/120L",
+      "colour": "Black",
+      "qty": 4,
+      "invoices": "00008097"
+    },
+    {
+      "date": "2026-10-26",
+      "type": "Lid",
+      "size": "80L/120L",
+      "colour": "Yellow",
+      "qty": 5,
+      "invoices": "00008097"
+    },
+    {
+      "date": "2026-10-27",
+      "type": "Bin",
+      "size": "660L",
+      "colour": "Dark grey",
+      "qty": 1,
+      "invoices": "00008132"
+    },
+    {
+      "date": "2026-10-27",
+      "type": "Lid",
+      "size": "660L",
+      "colour": "Royal blue",
+      "qty": 1,
+      "invoices": "00008132"
+    }
+  ],
+  "totals": [
+    {
+      "date": "2026-10-20",
+      "invoices": 4,
+      "bins": 4,
+      "lids": 4,
+      "parts": 2,
+      "sales_ex_gst": 2316.88,
+      "sales_incl_gst": 2548.57,
+      "freight_ex_gst": 127.88,
+      "notes": ""
+    },
+    {
+      "date": "2026-10-21",
+      "invoices": 5,
+      "bins": 24,
+      "lids": 24,
+      "parts": 24,
+      "sales_ex_gst": 4764.0,
+      "sales_incl_gst": 5240.4,
+      "freight_ex_gst": 255.0,
+      "notes": ""
+    },
+    {
+      "date": "2026-10-22",
+      "invoices": 2,
+      "bins": 6,
+      "lids": 6,
+      "parts": 13,
+      "sales_ex_gst": 4426.5,
+      "sales_incl_gst": 4869.15,
+      "freight_ex_gst": 170.0,
+      "notes": ""
+    },
+    {
+      "date": "2026-10-23",
+      "invoices": 1,
+      "bins": 1,
+      "lids": 1,
+      "parts": 2,
+      "sales_ex_gst": 152.0,
+      "sales_incl_gst": 167.2,
+      "freight_ex_gst": 0.0,
+      "notes": ""
+    },
+    {
+      "date": "2026-10-26",
+      "invoices": 1,
+      "bins": 9,
+      "lids": 9,
+      "parts": 0,
+      "sales_ex_gst": 626.96,
+      "sales_incl_gst": 689.66,
+      "freight_ex_gst": 80.0,
+      "notes": "00008097 Reward Hospitality released from hold. 80L/120L lids shared. Excludes stock adjustments"
+    },
+    {
+      "date": "2026-10-27",
+      "invoices": 1,
+      "bins": 1,
+      "lids": 1,
+      "parts": 0,
+      "sales_ex_gst": 570.0,
+      "sales_incl_gst": 627.0,
+      "freight_ex_gst": 135.0,
+      "notes": "Running total as of 11:41am; more invoices may come today. 660L shipment is stock in, not sales"
+    }
+  ]
+}

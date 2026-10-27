@@ -4,6 +4,7 @@ import { get, put } from "@vercel/blob";
 import { unstable_rethrow } from "next/navigation";
 import { connection } from "next/server";
 import seedJson from "../data/inventory.json";
+import sampleSalesJson from "../data/sales.sample.json";
 import { blobAccess, blobConfigured } from "./blob-config";
 import {
   INVENTORY_BLOB_PATH,
@@ -12,6 +13,12 @@ import {
   type LoadDetail,
   type LoadOrigin,
 } from "./inventory";
+import {
+  parseSales,
+  SALES_BLOB_PATH,
+  type Sales,
+  type SalesLoadDetail,
+} from "./sales";
 
 export type LoadedInventory = {
   inventory: Inventory;
@@ -82,4 +89,69 @@ export async function saveInventory(inventory: Inventory): Promise<void> {
     contentType: "application/json",
     cacheControlMaxAge: 60,
   });
+}
+
+export type LoadedSales = {
+  sales: Sales | null;
+  detail: SalesLoadDetail;
+};
+
+export const loadSales = cache(async (): Promise<LoadedSales> => {
+  await connection();
+
+  if (!blobConfigured()) {
+    return previewSales() ?? { sales: null, detail: "unconfigured" };
+  }
+
+  try {
+    const result = await get(SALES_BLOB_PATH, {
+      access: blobAccess(),
+      useCache: false,
+    });
+
+    if (!result || result.statusCode !== 200 || !result.stream) {
+      return previewSales() ?? { sales: null, detail: "empty" };
+    }
+
+    const text = await new Response(result.stream).text();
+    let body: unknown;
+    try {
+      body = JSON.parse(text);
+    } catch {
+      console.error("Blob sales.json is not JSON");
+      return { sales: null, detail: "invalid" };
+    }
+
+    const parsed = parseSales(body);
+    if (!parsed.ok) {
+      console.error("Blob sales.json failed validation:", parsed.error);
+      return { sales: null, detail: "invalid" };
+    }
+
+    return { sales: parsed.value, detail: null };
+  } catch (error) {
+    unstable_rethrow(error);
+    console.error(
+      "Blob sales read failed:",
+      error instanceof Error ? error.message : error,
+    );
+    return { sales: null, detail: "error" };
+  }
+});
+
+export async function saveSales(sales: Sales): Promise<void> {
+  await put(SALES_BLOB_PATH, JSON.stringify(sales), {
+    access: blobAccess(),
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+    cacheControlMaxAge: 60,
+  });
+}
+
+function previewSales(): LoadedSales | null {
+  if (process.env.SALES_PREVIEW !== "1") return null;
+  const parsed = parseSales(sampleSalesJson);
+  if (!parsed.ok) return { sales: null, detail: "invalid" };
+  return { sales: parsed.value, detail: "preview" };
 }
