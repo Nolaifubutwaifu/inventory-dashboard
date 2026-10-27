@@ -21,7 +21,8 @@ import {
   type SizeColumn,
   type StockView,
 } from "@/lib/matrix";
-import type { Sales, SalesLoadDetail } from "@/lib/sales";
+import { formatIsoDate, type Sales, type SalesLoadDetail } from "@/lib/sales";
+import type { History, HistoryLoadDetail } from "@/lib/history";
 import { SalesTab } from "@/components/sales-tab";
 
 type ViewMode = "all" | "attention" | "sales";
@@ -31,9 +32,18 @@ type DashboardProps = {
   sourceLabel: string;
   sales: Sales | null;
   salesDetail: SalesLoadDetail;
+  history: History | null;
+  historyDetail: HistoryLoadDetail;
 };
 
-export function Dashboard({ inventory, sourceLabel, sales, salesDetail }: DashboardProps) {
+export function Dashboard({
+  inventory,
+  sourceLabel,
+  sales,
+  salesDetail,
+  history,
+  historyDetail,
+}: DashboardProps) {
   const [mode, setMode] = useState<ViewMode>("all");
   const [showLow, setShowLow] = useState(false);
   const view = buildStockView(inventory.items);
@@ -61,7 +71,14 @@ export function Dashboard({ inventory, sourceLabel, sales, salesDetail }: Dashbo
             </div>
             {mode === "sales" ? (
               <p className="mt-1 text-sm text-neutral-500">
-                {sales ? (
+                {history ? (
+                  <>
+                    Through {formatIsoDate(history.period.end)}
+                    {history.timezone ? (
+                      <span className="text-neutral-400"> · {history.timezone}</span>
+                    ) : null}
+                  </>
+                ) : sales ? (
                   <>
                     Updated {formatCountedAt(sales.updated_at)}
                     <span className="text-neutral-400"> · {sales.source}</span>
@@ -124,7 +141,13 @@ export function Dashboard({ inventory, sourceLabel, sales, salesDetail }: Dashbo
         </header>
 
         {mode === "sales" ? (
-          <SalesTab sales={sales} salesDetail={salesDetail} items={inventory.items} />
+          <SalesTab
+            sales={sales}
+            salesDetail={salesDetail}
+            history={history}
+            historyDetail={historyDetail}
+            items={inventory.items}
+          />
         ) : (
           <>
         <Legend />

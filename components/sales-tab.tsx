@@ -1,9 +1,16 @@
 "use client";
 
-import { useMemo, useSyncExternalStore, type ReactNode } from "react";
+import { useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { ColourName } from "@/components/count-chip";
+import { HistoryInsights } from "@/components/history-insights";
 import { formatNumber } from "@/lib/inventory";
 import type { InventoryItem } from "@/lib/inventory";
+import {
+  buildHistoryView,
+  type CustomerWindow,
+  type History,
+  type HistoryLoadDetail,
+} from "@/lib/history";
 import {
   buildSalesView,
   brisbaneToday,
@@ -20,24 +27,41 @@ import {
   type SuggestionLine,
 } from "@/lib/sales";
 
+const SEASONAL_STORAGE_KEY = "brisbins-seasonal-adjustment";
+const SEASONAL_EVENT = "brisbins-seasonal";
+
 type SalesTabProps = {
   sales: Sales | null;
   salesDetail: SalesLoadDetail;
+  history: History | null;
+  historyDetail: HistoryLoadDetail;
   items: readonly InventoryItem[];
 };
 
-export function SalesTab({ sales, salesDetail, items }: SalesTabProps) {
-  if (!sales) return <SalesEmpty detail={salesDetail} />;
-  return <SalesReport sales={sales} salesDetail={salesDetail} items={items} />;
+export function SalesTab({ sales, salesDetail, history, historyDetail, items }: SalesTabProps) {
+  if (!sales && !history) return <SalesEmpty salesDetail={salesDetail} historyDetail={historyDetail} />;
+  return (
+    <SalesReport
+      sales={sales}
+      salesDetail={salesDetail}
+      history={history}
+      historyDetail={historyDetail}
+      items={items}
+    />
+  );
 }
 
 function SalesReport({
   sales,
   salesDetail,
+  history,
+  historyDetail,
   items,
 }: {
-  sales: Sales;
+  sales: Sales | null;
   salesDetail: SalesLoadDetail;
+  history: History | null;
+  historyDetail: HistoryLoadDetail;
   items: readonly InventoryItem[];
 }) {
   const assumptions = useSyncExternalStore(
@@ -45,21 +69,61 @@ function SalesReport({
     assumptionsSnapshot,
     serverAssumptions,
   );
+  const seasonal = useSyncExternalStore(subscribeSeasonal, seasonalSnapshot, serverSeasonal);
+  const [customerWindow, setCustomerWindow] = useState<CustomerWindow>(12);
 
   const today = brisbaneToday();
   const view = useMemo(
-    () => buildSalesView(sales, items, today, assumptions),
+    () => (sales ? buildSalesView(sales, items, today, assumptions) : null),
     [sales, items, today, assumptions],
   );
+  const historyView = useMemo(
+    () =>
+      history
+        ? buildHistoryView(history, items, today, assumptions, { customerWindow, seasonal })
+        : null,
+    [history, items, today, assumptions, customerWindow, seasonal],
+  );
+  const historyMonth = historyView?.currentMonth != null;
+  const historyUnits = historyView?.unitForecast != null;
 
   return (
     <div className="flex flex-col gap-4">
+      {historyDetail === "preview" ? (
+        <p className="rounded-xl border border-dashed border-neutral-300 bg-white px-3 py-2 text-[13px] text-neutral-600">
+          Showing the sample sales history. No history.json has been uploaded yet.
+        </p>
+      ) : null}
+      {historyDetail === "invalid" || historyDetail === "error" ? (
+        <p className="rounded-xl border border-dashed border-neutral-300 bg-white px-3 py-2 text-[13px] text-neutral-600">
+          The sales history file could not be read. The next upload replaces it.
+        </p>
+      ) : null}
       {salesDetail === "preview" ? (
         <p className="rounded-xl border border-dashed border-neutral-300 bg-white px-3 py-2 text-[13px] text-neutral-600">
           Showing the sample sales file. No sales.json has been uploaded yet.
         </p>
       ) : null}
+      {sales && history ? (
+        <p className="text-[13px] text-neutral-500">The daily sales file is also loaded.</p>
+      ) : null}
 
+      {historyView ? (
+        <HistoryInsights
+          view={historyView}
+          assumptions={assumptions}
+          customerWindow={customerWindow}
+          onCustomerWindow={setCustomerWindow}
+          seasonal={seasonal}
+          onSeasonal={toggleSeasonal}
+          onLeadWeeks={(value) => updateWeeks("leadWeeks", value)}
+          onCoverWeeks={(value) => updateWeeks("coverWeeks", value)}
+          onCapacity={updateCapacity}
+          salesLoaded={sales != null}
+        />
+      ) : null}
+
+      {!historyMonth && view ? (
       <section className="rounded-2xl border border-neutral-200 bg-white px-4 py-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:px-5">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <h2 className="text-[15px] font-semibold text-neutral-900">Sold this month</h2>
@@ -117,7 +181,10 @@ function SalesReport({
           <p className="mt-3 text-sm text-neutral-500">No sales recorded in {view.month.label}.</p>
         )}
       </section>
+      ) : null}
 
+      {!historyUnits && view ? (
+      <>
       <section className="rounded-2xl border border-neutral-200 bg-white px-4 py-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:px-5">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <h2 className="text-[15px] font-semibold text-neutral-900">Expected sales next month</h2>
@@ -260,6 +327,13 @@ function SalesReport({
           </div>
         )}
       </section>
+      </>
+      ) : null}
+      {!historyUnits && !view ? (
+        <p className="rounded-2xl border border-neutral-200 bg-white px-4 py-4 text-sm text-neutral-600">
+          This history does not yet have full item coverage to forecast from, and no daily sales file is loaded.
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -267,8 +341,18 @@ function SalesReport({
 const itemColumns = ["Size", "Colour", "Qty"];
 const partColumns = ["Name", "Qty"];
 
-function SalesEmpty({ detail }: { detail: SalesLoadDetail }) {
-  const invalid = detail === "invalid" || detail === "error";
+function SalesEmpty({
+  salesDetail,
+  historyDetail,
+}: {
+  salesDetail: SalesLoadDetail;
+  historyDetail: HistoryLoadDetail;
+}) {
+  const invalid =
+    salesDetail === "invalid" ||
+    salesDetail === "error" ||
+    historyDetail === "invalid" ||
+    historyDetail === "error";
   return (
     <section className="rounded-2xl border border-neutral-200 bg-white px-4 py-8 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:px-5">
       <h2 className="text-[15px] font-semibold text-neutral-900">
@@ -276,8 +360,8 @@ function SalesEmpty({ detail }: { detail: SalesLoadDetail }) {
       </h2>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-neutral-600">
         {invalid
-          ? "The sales file in the store is not valid. The stock matrix is unchanged. The next upload replaces the file."
-          : "This tab fills in after the office PC uploads sales.json. Until then there is nothing to total, forecast, or order."}
+          ? "A sales file in the store is not valid. The stock matrix is unchanged. The next upload replaces the file."
+          : "This tab fills in after the office PC uploads sales.json or history.json. Until then there is nothing to total, forecast, or order."}
       </p>
     </section>
   );
@@ -439,6 +523,33 @@ function assumptionsSnapshot(): OrderAssumptions {
 
 function serverAssumptions(): OrderAssumptions {
   return DEFAULT_ORDER_ASSUMPTIONS;
+}
+
+let cachedSeasonal = false;
+
+function seasonalSnapshot(): boolean {
+  cachedSeasonal = localStorage.getItem(SEASONAL_STORAGE_KEY) === "1";
+  return cachedSeasonal;
+}
+
+function serverSeasonal(): boolean {
+  return false;
+}
+
+function subscribeSeasonal(onChange: () => void) {
+  window.addEventListener(SEASONAL_EVENT, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(SEASONAL_EVENT, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+function toggleSeasonal() {
+  const next = localStorage.getItem(SEASONAL_STORAGE_KEY) !== "1";
+  localStorage.setItem(SEASONAL_STORAGE_KEY, next ? "1" : "0");
+  cachedSeasonal = next;
+  window.dispatchEvent(new Event(SEASONAL_EVENT));
 }
 
 function subscribeAssumptions(onChange: () => void) {
